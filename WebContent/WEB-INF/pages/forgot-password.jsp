@@ -29,10 +29,10 @@
         <% if (request.getAttribute("step") == null) { %>
             <!-- STEP 1: Email -->
             <form action="<%= ctx %>/forgot-password" method="post">
-                <input type="hidden" name="action" value="request">
+                <input type="hidden" name="f_action" value="request">
                 <div class="field">
                     <label for="email">Account Email</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email" required autofocus>
+                    <input type="email" id="email" name="email" value="<%= request.getAttribute("email") != null ? request.getAttribute("email") : (session.getAttribute("resetEmail") != null ? session.getAttribute("resetEmail") : "") %>" placeholder="Enter your email" required autofocus>
                 </div>
                 <button type="submit" class="btn-duo btn-duo-blue">
                     Continue
@@ -41,17 +41,26 @@
         <% } else if ("reset".equals(request.getAttribute("step"))) { %>
             <!-- STEP 2: Token + Pwd -->
             <form action="<%= ctx %>/forgot-password" method="post" style="text-align: left;">
-                <input type="hidden" name="action" value="reset">
-                <input type="hidden" name="email" value="<%= request.getAttribute("email") %>">
+                <input type="hidden" name="f_action" value="reset">
+                <input type="hidden" name="email" value="<%= request.getAttribute("email") != null ? request.getAttribute("email") : (session.getAttribute("resetEmail") != null ? session.getAttribute("resetEmail") : "") %>">
                 
                 <div class="field">
+                    <p class="subtitle" style="text-align: center; margin-bottom: 20px;">
+                        Resetting password for: <strong><%= request.getAttribute("email") != null ? request.getAttribute("email") : (session.getAttribute("resetEmail") != null ? session.getAttribute("resetEmail") : "Required Email Lost") %></strong>
+                    </p>
                     <label for="token">Reset Token</label>
-                    <input type="text" id="token" name="token" placeholder="8-Character Token" required autofocus>
+                    <input type="text" id="token" name="token" value="<%= request.getAttribute("token") != null ? request.getAttribute("token") : "" %>" placeholder="8-Character Token" required autofocus>
+                    <p class="subtitle" style="font-size: 0.8rem; margin-top: 5px;">Check console or use: <%= request.getAttribute("token") %></p>
                 </div>
                 
                 <div class="field">
                     <label for="newPassword">New Password</label>
                     <input type="password" id="newPassword" name="newPassword" placeholder="Minimum 6 characters" required>
+                </div>
+
+                <div class="field">
+                    <label for="confirm">Confirm Password</label>
+                    <input type="password" id="confirm" name="confirm" placeholder="Repeat password" required>
                 </div>
                 
                 <button type="submit" class="btn-duo btn-duo-blue" style="margin-top: 15px;">

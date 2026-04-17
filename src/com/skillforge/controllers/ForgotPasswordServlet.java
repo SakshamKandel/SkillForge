@@ -24,41 +24,69 @@ public class ForgotPasswordServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String step = req.getParameter("step");
+        HttpSession session = req.getSession();
+        String fAction = req.getParameter("f_action");
+        String email   = req.getParameter("email");
+        
+        // Try to get email from session if parameter is missing (Step 2 validation)
+        if (email == null || email.trim().isEmpty()) {
+            email = (String) session.getAttribute("resetEmail");
+        }
+
+        System.err.println("[ForgotPassword] Action: " + fAction + ", Email: " + email);
+
+        if (email != null && !email.trim().isEmpty()) {
+            req.setAttribute("email", email.trim());
+            session.setAttribute("resetEmail", email.trim()); // backup
+        }
 
         try {
-            if ("1".equals(step)) {
-                // Issue token
-                String email = req.getParameter("email");
-                if (!InputValidator.isValidEmail(email))
+            if ("request".equals(fAction)) {
+                if (email == null || email.trim().isEmpty()) {
+                    throw new Exception("Please enter your email.");
+                }
+                
+                if (!InputValidator.isValidEmail(email)) {
                     throw new Exception("Invalid email format.");
+                }
 
-                String token = userService.issueResetToken(email);
-                if (token == null)
+                String token = userService.issueResetToken(email.trim());
+                if (token == null) {
                     throw new Exception("No account found with that email.");
+                }
 
                 req.setAttribute("token", token);
-                req.setAttribute("email", email);
-                req.setAttribute("step", "2");
+                req.setAttribute("step", "reset");
+                System.err.println("[ForgotPassword] Step 1 Success. Email: " + email);
 
-            } else if ("2".equals(step)) {
-                // Apply reset
-                String email   = req.getParameter("email");
+            } else if ("reset".equals(fAction)) {
+                req.setAttribute("step", "reset");
+
                 String token   = req.getParameter("token");
                 String newPwd  = req.getParameter("newPassword");
                 String confirm = req.getParameter("confirm");
 
+                System.err.println("[ForgotPassword] Step 2 Attempt. Email: " + email + ", Token: " + token);
+
+                if (email == null || email.trim().isEmpty())
+                    throw new Exception("Email identification lost. Please restart.");
+                if (token == null || token.trim().isEmpty())
+                    throw new Exception("Token is required.");
                 if (!InputValidator.isValidPassword(newPwd))
                     throw new Exception("Password must be at least 6 characters.");
-                if (!newPwd.equals(confirm))
+                if (confirm == null || !newPwd.equals(confirm))
                     throw new Exception("Passwords do not match.");
 
-                userService.applyReset(email, token, newPwd);
+                userService.applyReset(email.trim(), token.trim(), newPwd);
+                
+                session.removeAttribute("resetEmail");
+                System.err.println("[ForgotPassword] Step 2 Success for: " + email);
 
                 resp.sendRedirect(req.getContextPath() + "/login?success=Password+reset+successful.+Please+login.");
                 return;
             }
         } catch (Exception e) {
+            System.err.println("[ForgotPassword] Error: " + e.getMessage());
             req.setAttribute("error", e.getMessage());
         }
 

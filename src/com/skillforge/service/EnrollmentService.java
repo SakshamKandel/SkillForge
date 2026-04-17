@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /// Business logic for enrollments
-class EnrollmentService {
+public class EnrollmentService {
 
     private static final String JOIN_SQL =
         "SELECT e.*, u.full_name AS student_name, c.title AS course_title, " +
