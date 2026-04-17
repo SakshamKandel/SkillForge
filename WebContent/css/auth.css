@@ -1,0 +1,246 @@
+/* Auth Styles - Duolingo Inspired Layout */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+*, *::before, *::after {
+    box-sizing: border-box; /* IRONCLAD Rule */
+}
+
+:root {
+    --duo-green: #58cc02;
+    --duo-green-dark: #46a302;
+    --duo-blue: #1cb0f6;
+    --duo-blue-dark: #1899d6;
+    --duo-gray: #afafaf;
+    --duo-gray-light: #e5e5e5;
+    --duo-text: #4b4b4b;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: var(--duo-text);
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 40px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 440px;
+    margin: auto;
+    position: relative;
+    z-index: 10;
+}
+
+.auth-card {
+    background: white;
+    padding: 60px 48px 90px 48px;
+    border-radius: 2.5rem;
+    border: 3.5px solid var(--duo-gray-light);
+    text-align: center;
+    box-shadow: 0 10px 0 0 var(--duo-gray-light);
+    display: flex;
+    flex-direction: column;
+    overflow: visible; /* Prevent clipping of shadows */
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--duo-text);
+    margin: 0 0 8px;
+    letter-spacing: -0.03em;
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #afafaf;
+    margin-bottom: 48px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.field {
+    text-align: left;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+.field label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #afafaf;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    margin-left: 14px;
+}
+
+.field input {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 1.25rem;
+    background: #f7f7f7;
+    border: 2px solid var(--duo-gray-light);
+    color: var(--duo-text);
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+.field input:focus {
+    background: white;
+    border-color: var(--duo-blue);
+    box-shadow: 0 0 0 4px rgba(28, 176, 246, 0.1);
+}
+
+/* Duolingo Buttons */
+.btn-duo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 18px 24px;
+    font-size: 1rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 1.25rem;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.1s ease, filter 0.2s;
+    text-decoration: none;
+    position: relative;
+    user-select: none;
+    margin-bottom: 8px; /* Buffer for shadow */
+}
+
+/* Use transform instead of 'top' for cleaner flow */
+.btn-duo:active {
+    transform: translateY(4px);
+}
+
+.btn-duo-green {
+    background: var(--duo-green);
+    color: white;
+    box-shadow: 0 5px 0 0 var(--duo-green-dark);
+}
+
+.btn-duo-green:active {
+    box-shadow: 0 1px 0 0 var(--duo-green-dark);
+}
+
+.btn-duo-blue {
+    background: var(--duo-blue);
+    color: white;
+    box-shadow: 0 5px 0 0 var(--duo-blue-dark);
+}
+
+.btn-duo-blue:active {
+    box-shadow: 0 1px 0 0 var(--duo-blue-dark);
+}
+
+.btn-duo-ghost {
+    background: white;
+    color: var(--duo-blue);
+    border: 3px solid var(--duo-gray-light);
+    box-shadow: 0 5px 0 0 var(--duo-gray-light);
+}
+
+.btn-duo-ghost:active {
+    box-shadow: 0 1px 0 0 var(--duo-gray-light);
+}
+
+.btn-duo:hover {
+    filter: brightness(1.05);
+}
+
+/* Auth Divider */
+.auth-divider {
+    position: relative;
+    margin: 32px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.auth-divider::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: var(--duo-gray-light);
+    z-index: 1;
+}
+
+.auth-divider span {
+    position: relative;
+    z-index: 2;
+    background: white;
+    padding: 0 16px;
+    font-size: 0.8rem;
+    font-weight: 900;
+    color: #afafaf;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.auth-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.footer-link {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--duo-blue);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: color 0.1s;
+}
+
+.footer-link:hover {
+    color: var(--duo-blue-dark);
+}
+
+.msg {
+    padding: 16px;
+    border-radius: 1.25rem;
+    font-weight: 800;
+    margin-bottom: 24px;
+    font-size: 0.85rem;
+    text-align: center;
+    width: 100%;
+}
+
+.msg-error {
+    background: #ffdfe0;
+    color: #ff4b4b;
+    border: 3.5px solid #ffbabc;
+}
+
+.msg-success {
+    background: #d7ffb8;
+    color: var(--duo-green-dark);
+    border: 3.5px solid #a5ed6e;
+}
+
+@media (max-width: 480px) {
+    .auth-card {
+        padding: 40px 24px 60px 24px;
+    }
+    h1 {
+        font-size: 1.8rem;
+    }
+}
