@@ -53,14 +53,14 @@
                     <tr class="group hover:bg-slate-50/30 transition-colors">
                         <td class="px-8 py-8">
                             <div class="font-black text-slate-800 leading-tight"><%= co.getTitle() %></div>
-                            <div class="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest mt-1"><%= co.getCategory() %></div>
+                            <div class="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest mt-1"><%= co.getCategoryName() %></div>
                         </td>
                         <td class="px-8 py-8">
                             <div class="flex items-center gap-3">
                                 <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-[0.6rem] font-black text-slate-400 uppercase">
-                                    <%= co.getInstructor().substring(0, 1) %>
+                                    <%= co.getInstructorName().substring(0, 1) %>
                                 </div>
-                                <span class="text-sm font-bold text-slate-600"><%= co.getInstructor() %></span>
+                                <span class="text-sm font-bold text-slate-600"><%= co.getInstructorName() %></span>
                             </div>
                         </td>
                         <td class="px-8 py-8 text-center text-xs font-black text-slate-400 tabular-nums">

@@ -2,16 +2,21 @@ package com.skillforge.model;
 
 /**
  * JavaBean representing a row in the {@code courses} table.
+ * Uses FK references to categories and instructors (3NF).
  */
 public class Course {
 
     private int     id;
     private String  title;
-    private String  category;
-    private String  instructor;
+    private int     categoryId;
+    private int     instructorId;
     private int     durationWeeks;
     private String  description;
     private boolean active;
+
+    /* Joined display fields (populated via JOIN queries) */
+    private String  categoryName;
+    private String  instructorName;
 
     /* ---------- No-arg constructor ---------- */
     public Course() { }
@@ -24,11 +29,11 @@ public class Course {
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public int getCategoryId() { return categoryId; }
+    public void setCategoryId(int categoryId) { this.categoryId = categoryId; }
 
-    public String getInstructor() { return instructor; }
-    public void setInstructor(String instructor) { this.instructor = instructor; }
+    public int getInstructorId() { return instructorId; }
+    public void setInstructorId(int instructorId) { this.instructorId = instructorId; }
 
     public int getDurationWeeks() { return durationWeeks; }
     public void setDurationWeeks(int durationWeeks) { this.durationWeeks = durationWeeks; }
@@ -38,4 +43,11 @@ public class Course {
 
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }
+
+    /* Joined fields */
+    public String getCategoryName() { return categoryName; }
+    public void setCategoryName(String categoryName) { this.categoryName = categoryName; }
+
+    public String getInstructorName() { return instructorName; }
+    public void setInstructorName(String instructorName) { this.instructorName = instructorName; }
 }

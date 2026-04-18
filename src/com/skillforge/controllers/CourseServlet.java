@@ -10,6 +10,7 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/admin/courses")
 public class CourseServlet extends HttpServlet {
@@ -24,12 +25,17 @@ public class CourseServlet extends HttpServlet {
 
         try {
             if ("add".equals(action)) {
+                /* Pass lookup data for dropdowns */
+                req.setAttribute("categories", courseService.getAllCategories());
+                req.setAttribute("instructors", courseService.getAllInstructors());
                 req.getRequestDispatcher("/WEB-INF/pages/admin/course-form.jsp").forward(req, resp);
 
             } else if ("edit".equals(action)) {
                 int id = Integer.parseInt(req.getParameter("id"));
                 Course course = courseService.findById(id);
                 req.setAttribute("course", course);
+                req.setAttribute("categories", courseService.getAllCategories());
+                req.setAttribute("instructors", courseService.getAllInstructors());
                 req.getRequestDispatcher("/WEB-INF/pages/admin/course-form.jsp").forward(req, resp);
 
             } else if ("delete".equals(action)) {
@@ -59,24 +65,24 @@ public class CourseServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String title       = req.getParameter("title");
-        String category    = req.getParameter("category");
-        String instructor  = req.getParameter("instructor");
-        String durationStr = req.getParameter("durationWeeks");
-        String description = req.getParameter("description");
-        String idStr       = req.getParameter("id");
-        String activeParam = req.getParameter("active");
+        String title        = req.getParameter("title");
+        String categoryId   = req.getParameter("categoryId");
+        String instructorId = req.getParameter("instructorId");
+        String durationStr  = req.getParameter("durationWeeks");
+        String description  = req.getParameter("description");
+        String idStr        = req.getParameter("id");
+        String activeParam  = req.getParameter("active");
 
         try {
-            if (InputValidator.isBlank(title) || InputValidator.isBlank(category) || InputValidator.isBlank(instructor))
+            if (InputValidator.isBlank(title) || InputValidator.isBlank(categoryId) || InputValidator.isBlank(instructorId))
                 throw new Exception("Title, category, and instructor are required.");
             if (!InputValidator.isPositiveInt(durationStr))
                 throw new Exception("Duration must be a positive number.");
 
             Course course = new Course();
             course.setTitle(title.trim());
-            course.setCategory(category.trim());
-            course.setInstructor(instructor.trim());
+            course.setCategoryId(Integer.parseInt(categoryId.trim()));
+            course.setInstructorId(Integer.parseInt(instructorId.trim()));
             course.setDurationWeeks(Integer.parseInt(durationStr.trim()));
             course.setDescription(description != null ? description.trim() : "");
 
@@ -95,6 +101,10 @@ public class CourseServlet extends HttpServlet {
 
         } catch (Exception e) {
             req.setAttribute("error", e.getMessage());
+            try {
+                req.setAttribute("categories", courseService.getAllCategories());
+                req.setAttribute("instructors", courseService.getAllInstructors());
+            } catch (Exception ignored) { }
             if (idStr != null && !idStr.isEmpty()) {
                 try {
                     req.setAttribute("course", courseService.findById(Integer.parseInt(idStr)));

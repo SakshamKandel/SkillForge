@@ -38,11 +38,16 @@
             </div>
 
             <div class="field">
+                <label for="confirm">Confirm Password</label>
+                <input type="password" id="confirm" name="confirm" placeholder="Repeat your password" required>
+            </div>
+
+            <div class="field">
                 <label for="phone">Phone Number</label>
                 <input type="text" id="phone" name="phone" placeholder="Your phone number" required>
             </div>
 
-            <button type="submit" class="btn-duo btn-duo-green" style="margin-top: 16px;">
+            <button type="submit" class="btn-duo btn-duo-green btn-submit-gap">
                 Create Account
             </button>
         </form>

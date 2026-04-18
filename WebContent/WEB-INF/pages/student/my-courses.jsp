@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.skillforge.model.Enrollment, com.skillforge.model.Course, java.util.List" %>
+<%@ page import="com.skillforge.model.Enrollment, com.skillforge.model.Course, com.skillforge.model.Quiz, com.skillforge.model.QuizAttempt, com.skillforge.service.QuizService, java.util.List" %>
+<%
+    QuizService quizService = new QuizService();
+%>
 <%
     request.setAttribute("pageTitle", "My Courses");
     request.setAttribute("activePage", "mycourses");
@@ -55,7 +58,39 @@
                             </div>
                         </td>
                         <td class="px-10 py-8 text-right">
-                            <div class="flex items-center justify-end gap-3">
+                            <div class="flex items-center justify-end gap-4">
+                                <% 
+                                   Quiz q = null;
+                                   QuizAttempt lastAttempt = null;
+                                   Object sIdObj = session.getAttribute("userId");
+                                   if (sIdObj != null) {
+                                       try { 
+                                           q = quizService.getQuizByCourseId(en.getCourseId()); 
+                                           if (q != null) {
+                                               lastAttempt = quizService.getLastAttempt((int) sIdObj, q.getId());
+                                           }
+                                       } catch(Exception ignored){}
+                                   }
+                                   
+                                   if (q != null) {
+                                       if (lastAttempt != null && lastAttempt.isPassed()) {
+                                %>
+                                    <a href="<%= ctx %>/student/certification?attemptId=<%= lastAttempt.getId() %>" 
+                                       class="btn-duo btn-duo-blue btn-sm shadow-[0_3px_0_#1899D6] hover:translate-y-[-1px] active:translate-y-[2px] active:shadow-none">
+                                        View Certificate
+                                    </a>
+                                <%     } else if (en.getProgress() >= 100) { %>
+                                    <a href="<%= ctx %>/student/quiz?courseId=<%= en.getCourseId() %>" 
+                                       class="btn-duo btn-duo-green btn-sm shadow-[0_3px_0_var(--duo-green-dark)] hover:translate-y-[-1px] active:translate-y-[2px] active:shadow-none">
+                                        Take Quiz
+                                    </a>
+                                <%     } else { %>
+                                    <span class="text-[0.6rem] font-black text-slate-300 uppercase tracking-widest bg-slate-50 px-3 py-2 rounded-lg border border-slate-100">
+                                        Complete course for Quiz
+                                    </span>
+                                <%     } 
+                                   } %>
+
                                 <form method="post" action="<%= ctx %>/student/courses" class="flex items-center gap-2">
                                     <input type="hidden" name="enrollmentId" value="<%= en.getId() %>" />
                                     <input type="number" name="progress" min="0" max="100" value="<%= en.getProgress() %>" 
@@ -66,7 +101,7 @@
                                 </form>
                                 <a href="<%= ctx %>/student/courses?action=drop&enrollmentId=<%= en.getId() %>" 
                                    onclick="return confirm('Drop this course?')"
-                                   class="p-2.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all">
+                                   class="p-2.5 text-slate-200 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all">
                                     <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                                 </a>
                             </div>
@@ -129,7 +164,7 @@
                          class="w-full h-full object-cover grayscale-[0.1] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 ease-out" alt="Course" />
                     <div class="absolute top-6 left-6 z-20">
                         <span class="px-5 py-2.5 rounded-2xl bg-white/95 backdrop-blur-md text-[0.7rem] font-black uppercase tracking-widest text-slate-800 shadow-sm border border-slate-100">
-                            <%= co.getCategory() %>
+                            <%= co.getCategoryName() %>
                         </span>
                     </div>
                 </div>
@@ -140,7 +175,7 @@
                         <div class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center">
                             <svg class="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
                         </div>
-                        <span class="text-sm font-bold text-slate-400">By <span class="text-slate-900 group-hover:text-brand transition-colors"><%= co.getInstructor() %></span></span>
+                        <span class="text-sm font-bold text-slate-400">By <span class="text-slate-900 group-hover:text-brand transition-colors"><%= co.getInstructorName() %></span></span>
                     </div>
                     
                     <div class="flex items-center justify-between pt-6 border-t border-slate-50">

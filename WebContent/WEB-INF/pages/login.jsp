@@ -35,8 +35,8 @@
             <div class="field">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" placeholder="Password" required>
-                <div style="text-align: right; margin-top: 12px;">
-                    <a href="<%= ctx %>/forgot-password" class="footer-link" style="color: var(--duo-blue); font-size: 0.75rem;">Forgot Password?</a>
+                <div class="forgot-link-wrap">
+                    <a href="<%= ctx %>/forgot-password" class="footer-link">Forgot Password?</a>
                 </div>
             </div>
 

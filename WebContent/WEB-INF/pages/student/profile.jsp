@@ -14,8 +14,7 @@
 
 <!-- ===== Content ===== -->
 <div class="p-10 space-y-10">
-    
-    <!-- Notifications -->
+    <!-- Header Card -->
     <% if (error != null) { %>
         <div class="flex items-center gap-4 px-8 py-5 rounded-[2rem] bg-red-50 text-red-700 animate-[fadeUp_.4s_ease-out]">
             <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">

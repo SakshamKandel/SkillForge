@@ -36,12 +36,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="<%= ctx %>/css/style.css?v=2.2" />
-    <style>
-        /* Hide scrollbars for cleaner flat look */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-    </style>
+
 </head>
 <body class="font-sans bg-slate-50 text-slate-800 antialiased selection:bg-brand/20 selection:text-brand-dark overflow-x-hidden">
 <div class="layout flex h-screen overflow-hidden">
@@ -51,9 +46,7 @@
 
         <!-- Brand -->
         <div class="px-8 pt-10 pb-8 flex flex-col items-center">
-            <div class="w-16 h-16 bg-brand rounded-2xl flex items-center justify-center shadow-lg shadow-brand/20 mb-4 transition-transform hover:scale-105">
-                <img src="<%= ctx %>/images/Logo.png" alt="Logo" class="w-10 h-10 object-contain brightness-0 invert" />
-            </div>
+            <img src="<%= ctx %>/images/Logo.png" alt="Logo" class="w-20 h-20 object-contain mb-4 transition-transform hover:scale-105" />
             
             <div class="inline-flex items-center px-3 py-1 rounded-full text-[0.6rem] font-black bg-slate-100 text-slate-500 uppercase tracking-widest">
                 <%= "admin".equals(role) ? "System Admin" : "Student Member" %>
@@ -100,6 +93,15 @@
                 <span>Students</span>
             </a>
 
+            <a href="<%= ctx %>/admin/quizzes"
+               class="flex items-center gap-4 px-5 py-4 rounded-2xl text-[0.95rem] font-bold transition-all
+                      <%= "quizzes".equals(activePage)
+                          ? "bg-brand text-white shadow-[0_4px_0_0_rgb(66,153,2)] translate-y-[-1px]"
+                          : "text-slate-500 hover:bg-slate-50" %>">
+                <svg class="w-5 h-5 shrink-0 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <span>Quizzes</span>
+            </a>
+
             <a href="<%= ctx %>/admin/profile"
                class="flex items-center gap-4 px-5 py-4 rounded-2xl text-[0.95rem] font-bold transition-all
                       <%= "profile".equals(activePage)
@@ -107,6 +109,15 @@
                           : "text-slate-500 hover:bg-slate-50" %>">
                 <svg class="w-5 h-5 shrink-0 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
                 <span>My Profile</span>
+            </a>
+
+            <a href="<%= ctx %>/about"
+               class="flex items-center gap-4 px-5 py-4 rounded-2xl text-[0.95rem] font-bold transition-all
+                      <%= "about".equals(activePage)
+                          ? "bg-brand text-white shadow-[0_4px_0_0_rgb(66,153,2)] translate-y-[-1px]"
+                          : "text-slate-500 hover:bg-slate-50" %>">
+                <svg class="w-5 h-5 shrink-0 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                <span>About</span>
             </a>
 
         <% } else { %>
@@ -136,6 +147,15 @@
                           : "text-slate-500 hover:bg-slate-50" %>">
                 <svg class="w-5 h-5 shrink-0 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
                 <span>My Profile</span>
+            </a>
+
+            <a href="<%= ctx %>/about"
+               class="flex items-center gap-4 px-5 py-4 rounded-2xl text-[0.95rem] font-bold transition-all
+                      <%= "about".equals(activePage)
+                          ? "bg-brand text-white shadow-[0_4px_0_0_rgb(66,153,2)] translate-y-[-1px]"
+                          : "text-slate-500 hover:bg-slate-50" %>">
+                <svg class="w-5 h-5 shrink-0 stroke-current" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                <span>About</span>
             </a>
 
         <% } %>

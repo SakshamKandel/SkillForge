@@ -13,12 +13,13 @@
 
 <!-- ===== Content ===== -->
 <div class="p-10 space-y-12">
-    <!-- Header with Mascot -->
-    <div class="flex items-center gap-6 mb-4">
-        <img src="<%= ctx %>/images/Learning.png" alt="Mascot" class="w-32 h-32 object-contain" />
-        <div>
-            <h2 class="text-4xl font-black text-slate-800 tracking-tight">Your Progress Depot</h2>
-            <p class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mt-2 leading-none">A snapshot of your academic journey</p>
+    <!-- Header with Mascot Bubble -->
+    <div class="mascot-bubble-container">
+        <div class="mascot-image-wrap">
+            <img src="<%= ctx %>/images/Untitled.gif" alt="Mascot" />
+        </div>
+        <div class="speech-bubble">
+            <p>Welcome back, <%= userName %>! Ready to hit your learning milestones today?</p>
         </div>
     </div>
 

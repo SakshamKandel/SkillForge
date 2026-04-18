@@ -12,10 +12,12 @@ public class EnrollmentService {
 
     private static final String JOIN_SQL =
         "SELECT e.*, u.full_name AS student_name, c.title AS course_title, " +
-        "c.category, c.instructor, c.duration_weeks " +
+        "cat.name AS category, i.full_name AS instructor, c.duration_weeks " +
         "FROM enrollments e " +
         "JOIN users u ON e.student_id = u.id " +
-        "JOIN courses c ON e.course_id = c.id ";
+        "JOIN courses c ON e.course_id = c.id " +
+        "JOIN categories cat ON c.category_id = cat.id " +
+        "JOIN instructors i ON c.instructor_id = i.id ";
 
     /** All enrollments (admin view). */
     public List<Enrollment> getAll() throws SQLException {

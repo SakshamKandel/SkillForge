@@ -14,14 +14,6 @@
 
 <!-- ===== Content ===== -->
 <div class="p-10 space-y-12">
-    <!-- Welcome Mascot -->
-    <div class="flex items-center gap-8 mb-4">
-        <img src="<%= ctx %>/images/Admin.png" alt="Mascot" class="w-32 h-32 object-contain" />
-        <div>
-            <h2 class="text-4xl font-black text-slate-800 tracking-tight">System Control Center</h2>
-            <p class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mt-2 leading-none">Your operational overview is ready</p>
-        </div>
-    </div>
     <!-- Stat Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-10">
         <!-- Students -->

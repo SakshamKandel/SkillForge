@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.skillforge.model.Course" %>
+<%@ page import="com.skillforge.model.Course, java.util.Map" %>
 <%
     request.setAttribute("pageTitle", "Course Form");
     request.setAttribute("activePage", "courses");
@@ -9,6 +9,11 @@
     Course course = (Course) request.getAttribute("course");
     boolean isEdit = (course != null);
     String error = (String) request.getAttribute("error");
+
+    @SuppressWarnings("unchecked")
+    Map<Integer, String> categories  = (Map<Integer, String>) request.getAttribute("categories");
+    @SuppressWarnings("unchecked")
+    Map<Integer, String> instructors = (Map<Integer, String>) request.getAttribute("instructors");
 %>
 
 <div class="panel form-panel">
@@ -33,12 +38,30 @@
 
             <div class="field-row">
                 <div class="field">
-                    <label for="category">Category</label>
-                    <input type="text" id="category" name="category" value="<%= isEdit ? course.getCategory() : "" %>" required />
+                    <label for="categoryId">Category</label>
+                    <select id="categoryId" name="categoryId" required>
+                        <option value="">— Select Category —</option>
+                        <% if (categories != null) {
+                            for (Map.Entry<Integer, String> cat : categories.entrySet()) { %>
+                                <option value="<%= cat.getKey() %>"
+                                    <%= (isEdit && course.getCategoryId() == cat.getKey()) ? "selected" : "" %>>
+                                    <%= cat.getValue() %>
+                                </option>
+                        <%  } } %>
+                    </select>
                 </div>
                 <div class="field">
-                    <label for="instructor">Instructor</label>
-                    <input type="text" id="instructor" name="instructor" value="<%= isEdit ? course.getInstructor() : "" %>" required />
+                    <label for="instructorId">Instructor</label>
+                    <select id="instructorId" name="instructorId" required>
+                        <option value="">— Select Instructor —</option>
+                        <% if (instructors != null) {
+                            for (Map.Entry<Integer, String> ins : instructors.entrySet()) { %>
+                                <option value="<%= ins.getKey() %>"
+                                    <%= (isEdit && course.getInstructorId() == ins.getKey()) ? "selected" : "" %>>
+                                    <%= ins.getValue() %>
+                                </option>
+                        <%  } } %>
+                    </select>
                 </div>
             </div>
 

@@ -13,7 +13,7 @@
 <div class="auth-container">
     <div class="auth-card">
         <h1>Forgot Key</h1>
-        <p class="subtitle" style="margin-bottom: 30px;">Let's Find It!</p>
+        <p class="subtitle subtitle-gap">Let's Find It!</p>
 
         <% if (request.getAttribute("error") != null) { %>
             <div class="msg msg-error">
@@ -40,17 +40,17 @@
             </form>
         <% } else if ("reset".equals(request.getAttribute("step"))) { %>
             <!-- STEP 2: Token + Pwd -->
-            <form action="<%= ctx %>/forgot-password" method="post" style="text-align: left;">
+            <form action="<%= ctx %>/forgot-password" method="post" class="form-left-align">
                 <input type="hidden" name="f_action" value="reset">
                 <input type="hidden" name="email" value="<%= request.getAttribute("email") != null ? request.getAttribute("email") : (session.getAttribute("resetEmail") != null ? session.getAttribute("resetEmail") : "") %>">
                 
                 <div class="field">
-                    <p class="subtitle" style="text-align: center; margin-bottom: 20px;">
+                    <p class="subtitle reset-info-text">
                         Resetting password for: <strong><%= request.getAttribute("email") != null ? request.getAttribute("email") : (session.getAttribute("resetEmail") != null ? session.getAttribute("resetEmail") : "Required Email Lost") %></strong>
                     </p>
                     <label for="token">Reset Token</label>
                     <input type="text" id="token" name="token" value="<%= request.getAttribute("token") != null ? request.getAttribute("token") : "" %>" placeholder="8-Character Token" required autofocus>
-                    <p class="subtitle" style="font-size: 0.8rem; margin-top: 5px;">Check console or use: <%= request.getAttribute("token") %></p>
+                    <p class="subtitle token-hint">Check console or use: <%= request.getAttribute("token") %></p>
                 </div>
                 
                 <div class="field">
@@ -63,7 +63,7 @@
                     <input type="password" id="confirm" name="confirm" placeholder="Repeat password" required>
                 </div>
                 
-                <button type="submit" class="btn-duo btn-duo-blue" style="margin-top: 15px;">
+                <button type="submit" class="btn-duo btn-duo-blue btn-submit-gap">
                     Update Password
                 </button>
             </form>
