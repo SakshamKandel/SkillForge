@@ -6,7 +6,7 @@ The user interface leverages modern utility-first CSS implementations to provide
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
 ### Administrator Capabilities
 * **Secure Provisioning:** Automated AES-based password encryption and role-based access controls.
@@ -22,7 +22,7 @@ The user interface leverages modern utility-first CSS implementations to provide
 
 ---
 
-## 🏗️ Technical Architecture
+##  Technical Architecture
 
 SkillForge adheres to strict enterprise-standard separations of concern:
 
@@ -33,7 +33,7 @@ SkillForge adheres to strict enterprise-standard separations of concern:
 
 ---
 
-## 🛠️ Local Environment Setup
+##  Local Environment Setup
 
 The repository is natively structured as an **Eclipse Dynamic Web Project** for zero-configuration imports. 
 
@@ -61,7 +61,7 @@ The repository is natively structured as an **Eclipse Dynamic Web Project** for 
 
 ---
 
-## 🔐 Standard Access Credentials
+##  Standard Access Credentials
 
 Upon executing the database dump, the following baseline credentials are provisioned:
 
