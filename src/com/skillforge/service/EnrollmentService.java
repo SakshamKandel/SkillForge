@@ -12,7 +12,7 @@ public class EnrollmentService {
 
     private static final String JOIN_SQL =
         "SELECT e.*, u.full_name AS student_name, c.title AS course_title, " +
-        "cat.name AS category, i.full_name AS instructor, c.duration_weeks " +
+        "cat.name AS category, i.full_name AS instructor, c.duration_weeks, c.active AS course_active " +
         "FROM enrollments e " +
         "JOIN users u ON e.student_id = u.id " +
         "JOIN courses c ON e.course_id = c.id " +
@@ -156,6 +156,7 @@ public class EnrollmentService {
         e.setEnrolledAt(rs.getString("enrolled_at"));
         e.setProgress(rs.getInt("progress"));
         e.setStatus(rs.getString("status"));
+        e.setCourseActive(rs.getInt("course_active") == 1);
         return e;
     }
 }

@@ -126,37 +126,18 @@ public class CourseService {
     }
 
     public void delete(int id) throws SQLException {
-        try (Connection c = DBConfig.getConnection()) {
-            c.setAutoCommit(false);
-            try {
-                // Remove enrollments first
-                String delEnroll = "DELETE FROM enrollments WHERE student_id IS NOT NULL AND course_id = ?";
-                try (PreparedStatement ps1 = c.prepareStatement(delEnroll)) {
-                    ps1.setInt(1, id);
-                    ps1.executeUpdate();
-                }
-                
-                // Remove course
-                String delCourse = "DELETE FROM courses WHERE id = ?";
-                try (PreparedStatement ps2 = c.prepareStatement(delCourse)) {
-                    ps2.setInt(1, id);
-                    ps2.executeUpdate();
-                }
-                
-                c.commit();
-            } catch (SQLException e) {
-                c.rollback();
-                throw e;
-            } finally {
-                c.setAutoCommit(true);
-            }
+        String sql = "UPDATE courses SET active = 0 WHERE id = ?";
+        try (Connection c = DBConfig.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
         }
     }
 
     public int countAll() throws SQLException {
         try (Connection c = DBConfig.getConnection();
              Statement st = c.createStatement();
-             ResultSet rs = st.executeQuery("SELECT COUNT(*) FROM courses")) {
+             ResultSet rs = st.executeQuery("SELECT COUNT(*) FROM courses WHERE active = 1")) {
             rs.next();
             return rs.getInt(1);
         }

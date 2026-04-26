@@ -45,7 +45,12 @@
                     <% for (Enrollment en : myEnrollments) { %>
                     <tr class="group hover:bg-slate-50/30 transition-colors">
                         <td class="px-10 py-8">
-                            <div class="font-black text-slate-800 text-lg leading-tight"><%= en.getCourseTitle() %></div>
+                            <div class="font-black text-slate-800 text-lg leading-tight">
+                                <%= en.getCourseTitle() %>
+                                <% if (!en.isCourseActive()) { %>
+                                    <span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-[0.65rem] font-bold bg-red-100 text-red-800 uppercase tracking-wider align-middle">Retired</span>
+                                <% } %>
+                            </div>
                             <div class="text-slate-400 text-xs font-bold mt-1 uppercase tracking-wide">By <%= en.getInstructor() %></div>
                         </td>
                         <td class="px-10 py-8 w-[400px]">

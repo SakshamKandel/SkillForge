@@ -20,6 +20,7 @@ public class Enrollment {
     private String enrolledAt;
     private int    progress;
     private String status;
+    private boolean courseActive;
 
     /* ---------- No-arg constructor ---------- */
     public Enrollment() { }
@@ -58,4 +59,7 @@ public class Enrollment {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public boolean isCourseActive() { return courseActive; }
+    public void setCourseActive(boolean courseActive) { this.courseActive = courseActive; }
 }
