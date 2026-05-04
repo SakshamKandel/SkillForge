@@ -15,6 +15,7 @@ The user interface leverages modern utility-first CSS implementations to provide
 * **Student Tracking:** Macro-level dashboard monitoring overall platform enrollments and user acquisitions.
 
 ### Student Experience
+* **Sign In With Google:** Students can authenticate using their Google account via the Google Identity Services flow.
 * **Course Enrollment Matrix:** Frictionless exploration and enrollment for platform offerings.
 * **Interactive Assessments:** Gamified, responsive UI for taking course quizzes natively within the platform.
 * **Progress Visualization:** Dashboard summaries showcasing completed courses, active assessments, and certification metrics.
