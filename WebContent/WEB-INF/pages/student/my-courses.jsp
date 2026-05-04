@@ -1,8 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.skillforge.model.Enrollment, com.skillforge.model.Course, com.skillforge.model.Quiz, com.skillforge.model.QuizAttempt, com.skillforge.service.QuizService, java.util.List" %>
-<%
-    QuizService quizService = new QuizService();
-%>
+<%@ page import="com.skillforge.model.Enrollment, com.skillforge.model.Course, com.skillforge.model.Quiz, com.skillforge.model.QuizAttempt, java.util.List, java.util.Map" %>
 <%
     request.setAttribute("pageTitle", "My Courses");
     request.setAttribute("activePage", "mycourses");
@@ -11,6 +8,8 @@
 <%
     List<Enrollment> myEnrollments   = (List<Enrollment>) request.getAttribute("myEnrollments");
     List<Course>     availableCourses = (List<Course>) request.getAttribute("availableCourses");
+    Map<Integer, Quiz>        quizByCourse        = (Map<Integer, Quiz>) request.getAttribute("quizByCourse");
+    Map<Integer, QuizAttempt> lastAttemptByCourse = (Map<Integer, QuizAttempt>) request.getAttribute("lastAttemptByCourse");
     String searchVal = (request.getAttribute("search") != null) ? (String) request.getAttribute("search") : "";
 %>
 
@@ -64,19 +63,10 @@
                         </td>
                         <td class="px-10 py-8 text-right">
                             <div class="flex items-center justify-end gap-4">
-                                <% 
-                                   Quiz q = null;
-                                   QuizAttempt lastAttempt = null;
-                                   Object sIdObj = session.getAttribute("userId");
-                                   if (sIdObj != null) {
-                                       try { 
-                                           q = quizService.getQuizByCourseId(en.getCourseId()); 
-                                           if (q != null) {
-                                               lastAttempt = quizService.getLastAttempt((int) sIdObj, q.getId());
-                                           }
-                                       } catch(Exception ignored){}
-                                   }
-                                   
+                                <%
+                                   Quiz q = (quizByCourse != null) ? quizByCourse.get(en.getCourseId()) : null;
+                                   QuizAttempt lastAttempt = (lastAttemptByCourse != null) ? lastAttemptByCourse.get(en.getCourseId()) : null;
+
                                    if (q != null) {
                                        if (lastAttempt != null && lastAttempt.isPassed()) {
                                 %>

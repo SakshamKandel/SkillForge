@@ -2,21 +2,27 @@ package com.skillforge.controllers;
 
 import com.skillforge.model.Course;
 import com.skillforge.model.Enrollment;
+import com.skillforge.model.Quiz;
+import com.skillforge.model.QuizAttempt;
 import com.skillforge.service.CourseService;
 import com.skillforge.service.EnrollmentService;
+import com.skillforge.service.QuizService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet({"/admin/enrollments", "/student/courses"})
 public class EnrollmentServlet extends HttpServlet {
 
     private final EnrollmentService enrollmentService = new EnrollmentService();
     private final CourseService     courseService      = new CourseService();
+    private final QuizService       quizService        = new QuizService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -54,6 +60,21 @@ public class EnrollmentServlet extends HttpServlet {
 
                 // Default — show my courses + available courses (with optional search)
                 List<Enrollment> myEnrollments = enrollmentService.getByStudent(studentId);
+
+                // Pre-resolve Quiz + last QuizAttempt per enrollment so the JSP doesn't call services
+                Map<Integer, Quiz>        quizByCourse        = new HashMap<>();
+                Map<Integer, QuizAttempt> lastAttemptByCourse = new HashMap<>();
+                for (Enrollment en : myEnrollments) {
+                    Quiz q = quizService.getQuizByCourseId(en.getCourseId());
+                    if (q != null) {
+                        quizByCourse.put(en.getCourseId(), q);
+                        QuizAttempt last = quizService.getLastAttempt(studentId, q.getId());
+                        if (last != null) {
+                            lastAttemptByCourse.put(en.getCourseId(), last);
+                        }
+                    }
+                }
+
                 String keyword = req.getParameter("search");
                 List<Course> available;
                 if (keyword != null && !keyword.trim().isEmpty()) {
@@ -64,6 +85,8 @@ public class EnrollmentServlet extends HttpServlet {
                 }
                 req.setAttribute("myEnrollments", myEnrollments);
                 req.setAttribute("availableCourses", available);
+                req.setAttribute("quizByCourse", quizByCourse);
+                req.setAttribute("lastAttemptByCourse", lastAttemptByCourse);
                 req.getRequestDispatcher("/WEB-INF/pages/student/my-courses.jsp").forward(req, resp);
             }
         } catch (Exception e) {
