@@ -79,6 +79,54 @@ public class UserService {
         }
     }
 
+    public User findByEmail(String email) throws SQLException {
+        String sql = "SELECT * FROM users WHERE email = ?";
+        try (Connection c = DBConfig.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? map(rs) : null;
+            }
+        }
+    }
+
+    /**
+     * Auto-register a student that signed in via Google.
+     * The phone column is NOT NULL UNIQUE in the existing schema, so we
+     * synthesise a 10-digit pseudo-phone from the Google subject id.
+     * The stored password is a random encrypted string the user never sees.
+     */
+    public User registerGoogleUser(String email, String fullName, String googleSub) throws Exception {
+        String phone     = pseudoPhoneFromSub(googleSub);
+        String randomPwd = UUID.randomUUID().toString();
+
+        String sql = "INSERT INTO users (full_name, email, password, phone, role) VALUES (?,?,?,?,?)";
+        try (Connection c = DBConfig.getConnection();
+             PreparedStatement ps = c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, fullName);
+            ps.setString(2, email);
+            ps.setString(3, CipherUtil.encrypt(randomPwd));
+            ps.setString(4, phone);
+            ps.setString(5, "student");
+            ps.executeUpdate();
+            try (ResultSet rs = ps.getGeneratedKeys()) {
+                rs.next();
+                return findById(rs.getInt(1));
+            }
+        }
+    }
+
+    /** Take the last 10 digits of the Google subject id, left-pad with zeros if shorter. */
+    private static String pseudoPhoneFromSub(String sub) {
+        String digits = (sub == null) ? "" : sub.replaceAll("[^0-9]", "");
+        if (digits.length() >= 10) {
+            return digits.substring(digits.length() - 10);
+        }
+        StringBuilder sb = new StringBuilder(digits);
+        while (sb.length() < 10) sb.insert(0, '0');
+        return sb.toString();
+    }
+
     public List<User> getAllStudents() throws SQLException {
         List<User> list = new ArrayList<>();
         String sql = "SELECT * FROM users WHERE role = 'student' ORDER BY full_name";

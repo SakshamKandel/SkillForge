@@ -24,6 +24,13 @@ public class LoginServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + ("admin".equals(role) ? "/admin" : "/student"));
             return;
         }
+
+        // Surface ?error=... and ?success=... from redirects (Google sign-in, post-register)
+        String error   = req.getParameter("error");
+        String success = req.getParameter("success");
+        if (error != null)   req.setAttribute("error", error);
+        if (success != null) req.setAttribute("success", success);
+
         req.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(req, resp);
     }
 

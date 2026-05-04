@@ -30,9 +30,10 @@ public class AccessFilter implements Filter {
 
         // Public paths — no auth needed
         if (path.equals("/login") || path.equals("/register") ||
-            path.equals("/forgot-password") || path.startsWith("/css") ||
-            path.startsWith("/images") || path.startsWith("/photo") ||
-            path.startsWith("/uploads") ||
+            path.equals("/forgot-password") || path.equals("/about") ||
+            path.equals("/auth/google") ||
+            path.startsWith("/css") || path.startsWith("/images") ||
+            path.startsWith("/photo") || path.startsWith("/uploads") ||
             path.equals("/")) {
             chain.doFilter(request, response);
             return;
